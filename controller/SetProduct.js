@@ -66,14 +66,19 @@ exports.createSetProduct = asyncHandler(async (req, res, next) => {
 
   let orderNumber = 1;
 
+  const soldNumber = await SetProduct.findOne({ status: false }).sort({
+    code: 1,
+  });
   const codeNumber = await SetProduct.findOne({ status: true }).sort({
     code: -1,
   });
 
-  if (valueRequired(codeNumber) && valueRequired(codeNumber.code)) {
+  if (valueRequired(soldNumber) && valueRequired(soldNumber.code)) {
+    orderNumber = soldNumber;
+  } else if (valueRequired(codeNumber) && valueRequired(codeNumber.code)) {
     orderNumber += parseInt(codeNumber.code);
   }
-
+  req.body.code = orderNumber;
   req.body.setofCode =
     "WT" +
     req.body["tire"].diameter +
