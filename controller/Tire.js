@@ -1031,11 +1031,22 @@ exports.multDeleteTire = asyncHandler(async (req, res, next) => {
 });
 
 exports.getTire = asyncHandler(async (req, res, next) => {
-  const tire = await Tire.findById(req.params.id).populate("tireCategories");
+  const tire = await Tire.findById(req.params.id)
+    .populate("createUser")
+    .populate("make")
+    .populate("tireCategories");
 
   if (!tire) {
-    throw new MyError("Тухайн мэдээ олдсонгүй. ", 404);
+    throw new MyError("Тухайн өгөгдөл олдсонгүй. ", 404);
   }
+
+  tire.views = tire.views + 1;
+  tire.update();
+
+  res.status(200).json({
+    success: true,
+    data: tire,
+  });
 
   res.status(200).json({
     success: true,
