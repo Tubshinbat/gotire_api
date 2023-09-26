@@ -1047,11 +1047,6 @@ exports.getTire = asyncHandler(async (req, res, next) => {
     success: true,
     data: tire,
   });
-
-  res.status(200).json({
-    success: true,
-    data: tire,
-  });
 });
 
 exports.updateTire = asyncHandler(async (req, res, next) => {
