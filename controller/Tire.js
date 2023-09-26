@@ -1041,7 +1041,7 @@ exports.getTire = asyncHandler(async (req, res, next) => {
   }
 
   tire.views = tire.views + 1;
-  tire.update();
+  tire.save();
 
   res.status(200).json({
     success: true,

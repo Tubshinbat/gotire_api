@@ -191,7 +191,7 @@ exports.multDeleteBanner = asyncHandler(async (req, res, next) => {
 });
 
 exports.getBanner = asyncHandler(async (req, res, next) => {
-  const banner = await Banner.findByIdAndUpdate(req.params.id)
+  const banner = await Banner.findById(req.params.id)
     .populate("createUser")
     .populate("updateUser");
 
