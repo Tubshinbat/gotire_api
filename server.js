@@ -44,8 +44,10 @@ const SetProductCategoriesRouter = require("./routes/SetProductCategories");
 const ProductCategoriesRouter = require("./routes/ProductCategories");
 const ProductRouter = require("./routes/Product");
 const SetProductRouter = require("./routes/SetProduct");
+const SearchRouter = require('./routes/Search')
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
+
 
 //ROUTER IMPORT
 
@@ -147,6 +149,7 @@ app.use("/api/v1/tirecategories", TireCategoriesRouter);
 app.use("/api/v1/setproducts", SetProductRouter);
 app.use("/api/v1/setproductcategories", SetProductCategoriesRouter);
 app.use("/api/v1/productcategories", ProductCategoriesRouter);
+app.use('/api/v1/search', SearchRouter)
 app.use("/api/v1/products", ProductRouter);
 app.use(errorHandler);
 // Алдаа үүсэхэд барьж авч алдааны мэдээллийг клиент тал руу автоматаар мэдээлнэ
