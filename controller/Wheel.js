@@ -623,6 +623,10 @@ exports.wheelSearchControl = asyncHandler(async (req, res) => {
       $gte: parseInt(userInputs["minprice"]),
     };
 
+  if (valueRequired(userInputs["name"])) {
+    query["name"] = RegexOptions(userInputs["name"]);
+  }
+
   if (valueRequired(categories)) {
     const names = categories.split(",");
     const match = [];

@@ -108,6 +108,7 @@ exports.getSetProducts = asyncHandler(async (req, res, next) => {
   //  FIELDS
   const tiresize = req.query.tiresize;
   const setProductCategories = req.query.categoryname;
+  const name = req.query.name;
   const make = req.query.make;
   const modal = req.query.modal;
   const price = req.query.price;
@@ -116,7 +117,7 @@ exports.getSetProducts = asyncHandler(async (req, res, next) => {
   const createUser = req.query.createUser;
   const updateUser = req.query.updateUser;
   const arrayBooleanFields = ["star", "isDiscount", "status"];
-  const arrayFields = ["setOf", "setofCode", "name"];
+  const arrayFields = ["setOf", "setofCode"];
 
   const arrayTireFields = ["use", "season"];
   const arrayWheelFields = [
@@ -143,10 +144,14 @@ exports.getSetProducts = asyncHandler(async (req, res, next) => {
     if (valueRequired(req.query[field])) {
       const arrayList = req.query[field].split(",");
       if (field == "setOf") {
-        query.where(field).in(arrayList.map((el) => parseInt(el)));
-      } else query.where(field).in(arrayList.map((el) => el));
+        query.where([field]).in(arrayList.map((el) => parseInt(el)));
+      } else query.where([field]).in(arrayList.map((el) => el));
     }
   });
+
+  if (valueRequired(name)) {
+    query.find({ name: RegexOptions(name) });
+  }
 
   if (valueRequired(price)) {
     query.where("price").equals(price);
@@ -368,6 +373,10 @@ exports.setProductSearchControl = asyncHandler(async (req, res) => {
   if (valueRequired(userInputs["make"])) {
     const arrayList = await useTireMake(userInputs["make"]);
     query["tire.make"] = arrayList[0]._id;
+  }
+
+  if (valueRequired(userInputs["name"])) {
+    query["name"] = RegexOptions(userInputs["name"]);
   }
 
   if (valueRequired(setProductCategories)) {

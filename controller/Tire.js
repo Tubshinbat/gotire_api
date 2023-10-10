@@ -508,6 +508,10 @@ exports.tireSearchControl = asyncHandler(async (req, res) => {
       $gte: parseInt(userInputs["minprice"]),
     };
 
+  if (valueRequired(userInputs["name"])) {
+    query["name"] = RegexOptions(userInputs["name"]);
+  }
+
   const make = await Tire.aggregate([
     { $match: query },
     { $group: { _id: "$make", count: { $sum: 1 } } },

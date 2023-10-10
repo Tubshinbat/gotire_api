@@ -542,6 +542,10 @@ exports.productSearchControl = asyncHandler(async (req, res) => {
     query["productCategories"] = { $in: array.map((el) => el._id) };
   }
 
+  if (valueRequired(userInputs["name"])) {
+    query["name"] = RegexOptions(userInputs["name"]);
+  }
+
   if (
     valueRequired(userInputs["minprice"]) &&
     valueRequired(userInputs["maxprice"])
