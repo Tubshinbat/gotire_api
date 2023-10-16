@@ -10,10 +10,19 @@ const { RegexOptions } = require("../lib/searchOfterModel");
 
 exports.search = asyncHandler(async (req, res) => {
   const name = req.body.name;
-  const tires = await Tire.find({ name: RegexOptions(name) });
-  const wheels = await Wheel.find({ name: RegexOptions(name) });
-  const setProducts = await SetProduct.find({ name: RegexOptions(name) });
-  const products = await Product.find({ name: RegexOptions(name) });
+  const tires = await Tire.find({
+    name: RegexOptions(name),
+    status: true,
+  }).populate("make");
+  const wheels = await Wheel.find({ name: RegexOptions(name), status: true });
+  const setProducts = await SetProduct.find({
+    name: RegexOptions(name),
+    status: true,
+  });
+  const products = await Product.find({
+    name: RegexOptions(name),
+    status: true,
+  });
 
   res.status(200).json({
     success: true,
